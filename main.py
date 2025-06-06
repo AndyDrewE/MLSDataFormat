@@ -109,10 +109,13 @@ def create_gui():
     def drop(event):
         file_path = event.data.strip("{}")
         if file_path.lower().endswith(".csv"):
-            result = process_csv(file_path)
-            label.config(text=f"Done! Saved to:\n{result}")
+            try:
+                result = process_csv(file_path)
+                label.config(text=f"✅ Done!\nSaved to:\n{result}\n\nDrop another file to process.")
+            except Exception as e:
+                label.config(text=f"❌ Error:\n{str(e)}")
         else:
-            label.config(text="Please drop a .csv file.")
+            label.config(text="⚠️ Please drop a valid .csv file.")
 
     app = TkinterDnD.Tk()
     app.title("CSV Formatter")
